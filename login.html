@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack | Login</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <main class="auth-container">
+        <div class="auth-card">
+            <h1>FitTrack</h1>
+            <p>Your fitness journey starts here.</p>
+
+            <form id="loginForm">
+                <label>Email</label>
+                <input type="email" id="email" required>
+
+                <label>Password</label>
+                <input type="password" id="password" required>
+
+                <button type="submit">Login</button>
+                <p id="message"></p>
+            </form>
+
+            <p>Don't have an account?
+                <a href="register.html">Create account</a>
+            </p>
+        </div>
+    </main>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/login.js"></script>
+    <button onclick="logout()">Logout</button>
+</body>
+</html>

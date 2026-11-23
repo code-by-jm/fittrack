@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitTrack - Dashboard</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+<header>
+    <h1>FitTrack</h1>
+    <p>Your personal fitness and nutrition companion.</p>
+
+    <nav>
+        <a href="index.html">Dashboard</a>
+        <a href="profile.html">My Profile</a>
+        <a href="workout.html">Workouts</a>
+        <a href="food.html">Food Tracker</a>
+        <a href="progress.html">Progress</a>
+        <button type="button" onclick="logout()">Logout</button>
+    </nav>
+</header>
+
+<main class="container">
+
+    <h2 id="welcome">Welcome to FitTrack!</h2>
+
+    <p>
+        Build healthier habits, track your nutrition,
+        and follow your personalized workout plan.
+    </p>
+
+    <h2>Your Fitness Overview</h2>
+
+    <div class="items-grid">
+
+        <div class="item-card">
+            <h3>Daily Calories</h3>
+            <h2 id="calories">-- kcal</h2>
+            <p>Your daily calorie target.</p>
+        </div>
+
+        <div class="item-card">
+            <h3>Daily Protein</h3>
+            <h2 id="protein">-- g</h2>
+            <p>Your recommended protein target.</p>
+        </div>
+
+        <div class="item-card">
+            <h3>Maintenance Calories</h3>
+            <h2 id="tdee">-- kcal</h2>
+            <p>Your estimated daily energy expenditure.</p>
+        </div>
+
+        <div class="item-card">
+            <h3>Fitness Goal</h3>
+            <h2 id="goal">--</h2>
+            <p>Your selected fitness goal.</p>
+        </div>
+
+    </div>
+
+    <h2 style="margin-top:35px;">Your Activities</h2>
+
+    <div class="items-grid">
+
+        <div class="item-card">
+            <h3>My Profile</h3>
+            <p>Update your personal fitness information.</p>
+            <a href="profile.html">Manage Profile</a>
+        </div>
+
+        <div class="item-card">
+            <h3>Workout Generator</h3>
+            <p>Get an automatically generated home workout.</p>
+            <a href="workout.html">Generate Workout</a>
+        </div>
+
+        <div class="item-card">
+            <h3>Food Tracker</h3>
+            <p>Monitor your daily calories and protein intake.</p>
+            <a href="food.html">Track Food</a>
+        </div>
+
+        <div class="item-card">
+            <h3>Progress Tracker</h3>
+            <p>Record your weight and monitor changes.</p>
+            <a href="progress.html">View Progress</a>
+        </div>
+
+    </div>
+
+</main>
+
+<script src="assets/js/auth.js"></script>
+
+<script>
+async function loadDashboard() {
+
+    try {
+
+        const response = await fetch("api/profile.php");
+        const result = await response.json();
+
+        if (!response.ok || !result.profile) {
+            throw new Error(
+                result.error || "Unable to load fitness profile."
+            );
+        }
+
+        document.getElementById("welcome").textContent =
+            "Welcome, " + result.profile.name + "!";
+
+        document.getElementById("calories").textContent =
+            result.targets.daily_calories + " kcal";
+
+        document.getElementById("protein").textContent =
+            result.targets.daily_protein + " g";
+
+        document.getElementById("tdee").textContent =
+            result.targets.tdee + " kcal";
+
+        const goals = {
+            muscle_gain: "Muscle Gain",
+            weight_loss: "Weight Loss",
+            maintenance: "Maintenance"
+        };
+
+        document.getElementById("goal").textContent =
+            goals[result.profile.fitness_goal] || "Fitness";
+
+    } catch (error) {
+
+        console.error("Dashboard error:", error);
+
+    }
+}
+
+loadDashboard();
+</script>
+
+</body>
+</html>
